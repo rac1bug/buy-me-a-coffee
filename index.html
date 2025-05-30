@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Invítame un Café Cripto ☕</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #ffb703;
+      --primary-dark: #e6a600;
+      --background: #121212;
+      --card-bg: #1e1e1e;
+      --card-hover: #252525;
+      --accent: #03dac6;
+      --accent-dark: #00bfa5;
+      --text: #e0e0e0;
+      --secondary-text: #aaaaaa;
+      --border: #2c2c2c;
+      --success: #4caf50;
+      --error: #f44336;
+      --warning: #ff9800;
+      --info: #2196f3;
+      --transition: all 0.3s ease;
+      --shadow: 0 10px 30px rgba(0,0,0,0.4);
+      --shadow-hover: 0 15px 40px rgba(0,0,0,0.6);
+      --radius-sm: 0.5rem;
+      --radius-md: 0.75rem;
+      --radius-lg: 1.25rem;
+    }
+
+    /* Variables para tema claro */
+    [data-theme="light"] {
+  --primary: #6c63ff;          /* Violeta suave, moderno */
+  --primary-dark: #5851db;
+  --background: #f0f2f5;       /* Gris claro cálido para fondo general */
+  --card-bg: #ffffff;          /* Tarjetas limpias blancas */
+  --card-hover: #eceff4;       /* Hover tenue */
+  --accent: #ff6f61;           /* Coral apagado, elegante */
+  --accent-dark: #e65a50;
+  --text: #2f2f2f;             /* Gris oscuro, menos duro que negro */
+  --secondary-text: #5f6368;   /* Gris intermedio cálido */
+  --border: #dcdfe3;           /* Gris claro neutro */
+  --success: #4caf50;
+  --error: #ef5350;
+  --warning: #ffa726;
+  --info: #42a5f5;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.06);         /* Más suave que antes */
+  --shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.08);   /* Más elegante */
+}
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--background);
+      background-image: 
+        radial-gradient(circle at 15% 50%, rgba(3, 218, 198, 0.05) 0%, transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(255, 183, 3, 0.05) 0%, transparent 25%);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* Nuevo: Elemento decorativo de café animado */
+    .coffee-decoration {
+      position: fixed;
+      bottom: -50px;
+      right: -50px;
+      font-size: 15rem;
+      opacity: 0.03;
+      z-index: -1;
+      animation: float 25s linear infinite;
+      pointer-events: none;
+    }
+
+    [data-theme="light"] .coffee-decoration {
+      opacity: 0.05;
+    }
+    
+    @keyframes float {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(-100px, 50px) rotate(-5deg); }
+      50% { transform: translate(-200px, 0) rotate(0deg); }
+      75% { transform: translate(-100px, -50px) rotate(5deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      width: 100%;
+      text-align: center;
+      transition: var(--transition);
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+    
+    .profile-container {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .profile-pic {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 3px solid var(--primary);
+      object-fit: cover;
+      transition: var(--transition);
+    }
+    
+    .profile-container:hover .profile-pic {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(255, 183, 3, 0.3);
+    }
+    
+    .crypto-badge {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: var(--accent);
+      color: #000;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      transition: var(--transition);
+    }
+    
+    .profile-container:hover .crypto-badge {
+      transform: scale(1.1) rotate(10deg);
+    }
+    
+    h1 {
+      margin-top: 1.2rem;
+      font-size: 1.8rem;
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    
+    p.description {
+      margin: 1rem 0;
+      font-size: 1.05rem;
+      color: var(--secondary-text);
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .highlight {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .donation-buttons {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    .donation-option {
+      background: rgba(255, 183, 3, 0.15);
+      border: 2px solid transparent;
+      border-radius: 1.5rem;
+      padding: 0.8rem 1.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .donation-option:hover, .donation-option:focus {
+      background: rgba(255, 183, 3, 0.25);
+      transform: translateY(-3px);
+      outline: none;
+    }
+    
+    .donation-option.active {
+      background: var(--primary);
+      color: #000;
+      border-color: var(--primary);
+      box-shadow: 0 5px 15px rgba(255, 183, 3, 0.3);
+    }
+    
+    .donation-option.active .coffee-icon {
+      animation: pulse 1.5s infinite;
+    }
+    
+    .coffee-icon {
+      font-size: 1.2rem;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    [data-theme="light"] .crypto-section {
+      background: rgba(0, 0, 0, 0.03);
+    }
+    
+    .crypto-section {
+      margin-top: 1.8rem;
+      text-align: left;
+      background: rgba(42, 42, 42, 0.5);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      transition: var(--transition);
+      animation: fadeIn 0.5s ease forwards;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1.2rem;
+      color: var(--accent);
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    
+    .section-header i {
+      font-size: 1.2rem;
+    }
+
+    .section-header h3 {
+      font-size: 1.1rem;
+    }
+    
+    .amount-indicator {
+      background: rgba(3, 218, 198, 0.15);
+      color: var(--accent);
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 1.2rem;
+    }
+
+    [data-theme="light"] .amount-indicator {
+      background: rgba(3, 169, 244, 0.15);
+    }
+
+    .crypto-select-container {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+    
+    select#crypto {
+      background: #2a2a2a;
+      color: var(--text);
+      padding: 0.8rem 3rem 0.8rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      width: 100%;
+
+      font-size: 1rem;
+      transition: var(--transition);
+      cursor: pointer;
+      appearance: none;
+      
+    }
+    
+    [data-theme="light"] select#crypto {
+      background: #eceff4;
+    }
+
+    select#crypto:hover, select#crypto:focus {
+      border-color: var(--accent);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(3, 218, 198, 0.2);
+    }
+
+    [data-theme="light"] select#crypto:focus {
+      box-shadow: 0 0 0 2px rgba(3, 169, 244, 0.2);
+    }
+  
+    .crypto-select-container::after {
+      content: "▼";
+      position: absolute;
+      top: 50%;
+      right: 1rem;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: #aaaaaa;
+      font-size: 0.8rem;
+    }
+
+    .crypto-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      padding: 0.8rem;
+      background: rgba(42, 42, 42, 0.7);
+      border-radius: 0.75rem;
+      border: 1px solid var(--border);
+    }
+
+    [data-theme="light"] .crypto-info {
+      background: rgba(0, 0, 0, 0.03);
+    }
+
+    .crypto-info-item {
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .crypto-info-label {
+      color: var(--secondary-text);
+    }
+
+    .crypto-info-value {
+      font-weight: 500;
+    }
+    
+    .qr-container {
+      position: relative;
+      width: 180px;
+      height: 180px;
+      top: 9px;
+      margin: 0 auto 1.5rem;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
+      transition: var(--transition);
+    }
+    
+    .qr-container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255,183,3,0.1), rgba(3,218,198,0.1));
+      z-index: 1;
+    }
+    
+    .qr-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .wallet-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      gap: 0.5rem;
+      position: relative;
+    }
+    
+    input#wallet {
+      flex: 1;
+      padding: 0.9rem 1.2rem;
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      background: #2a2a2a;
+      color: var(--text);
+      font-size: 0.95rem;
+      transition: var(--transition);
+    }
+
+    [data-theme="light"] input#wallet {
+      background: #eceff4;
+    }
+    
+    input#wallet:hover, input#wallet:focus {
+      border-color: var(--accent);
+      outline: none;
+    }
+    
+    .copy-btn {
+      background: var(--accent);
+      color: #000;
+      border: none;
+      padding: 0.9rem 1.2rem;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .copy-btn:hover, .copy-btn:focus {
+      background: var(--accent-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(3, 218, 198, 0.3);
+      outline: none;
+    }
+
+    [data-theme="light"] .copy-btn:hover, 
+    [data-theme="light"] .copy-btn:focus {
+      box-shadow: 0 4px 10px rgba(3, 169, 244, 0.3);
+    }
+    
+    .message-section {
+      margin-top: 1.8rem;
+      background: rgba(42, 42, 42, 0.5);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      transition: var(--transition);
+    }
+
+    [data-theme="light"] .message-section {
+      background: rgba(0, 0, 0, 0.03);
+    }
+    
+    .message-section h3 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent);
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+    
+    textarea#message {
+      width: 100%;
+      padding: 1.2rem;
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      resize: none;
+      background: #1a1a1a;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      min-height: 100px;
+      transition: var(--transition);
+    }
+
+    [data-theme="light"] textarea#message {
+      background: #eceff4;
+    }
+    
+    textarea#message:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(3, 218, 198, 0.2);
+    }
+
+    [data-theme="light"] textarea#message:focus {
+      box-shadow: 0 0 0 2px rgba(3, 169, 244, 0.2);
+    }
+    
+    textarea#message::placeholder {
+      color: var(--secondary-text);
+    }
+    
+    .send-btn {
+      background: var(--primary);
+      color: #000;
+      border: none;
+      padding: 0.9rem;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 600;
+      width: 100%;
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .send-btn:hover, .send-btn:focus {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(255, 183, 3, 0.3);
+      outline: none;
+    }
+
+    /* Nuevo: Spinner para estado de carga */
+    .send-btn.sending::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+    
+    .send-btn .spinner {
+      display: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(0, 0, 0, 0.3);
+      border-top: 2px solid #000;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    .send-btn.sending .spinner {
+      display: block;
+    }
+    
+    .send-btn.sending .btn-text {
+      opacity: 0.7;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .char-counter {
+      text-align: right;
+      font-size: 0.85rem;
+      color: var(--secondary-text);
+      margin-top: 0.5rem;
+    }
+    
+    .char-counter.warning {
+      color: var(--warning);
+    }
+    
+    .char-counter.error {
+      color: var(--error);
+    }
+    
+    #messages-container {
+      margin-top: 1.8rem;
+      width: 100%;
+    }
+    
+    #messages-container h3 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent);
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+    
+    #messages-list {
+      list-style: none;
+      max-height: 300px;
+      overflow-y: auto;
+      padding-right: 5px;
+    }
+    
+    #messages-list::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    #messages-list::-webkit-scrollbar-track {
+      background: #1a1a1a;
+      border-radius: 10px;
+    }
+    
+    #messages-list::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 10px;
+    }
+    
+    .message-item {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border);
+      background: #2a2a2a;
+      margin-bottom: 0.75rem;
+      border-radius: 0.75rem;
+      color: var(--secondary-text);
+      position: relative;
+      padding-left: 2.5rem;
+      transition: var(--transition);
+    }
+
+    [data-theme="light"] .message-item {
+      background: rgba(0, 0, 0, 0.03);
+    }
+    
+    .message-item:hover {
+      background: #333;
+      transform: translateX(5px);
+    }
+    
+    .message-item::before {
+      content: "💬";
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.2rem;
+    }
+    
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--card-bg);
+      color: var(--text);
+      padding: 1rem 2rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 1000;
+      border-left: 4px solid var(--success);
+      transition: transform 0.4s ease;
+    }
+    
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+    
+    .toast i {
+      font-size: 1.3rem;
+      color: var(--success);
+    }
+
+    .toast.error {
+      border-left-color: var(--error);
+    }
+    
+    .toast.error i {
+      color: var(--error);
+    }
+    
+    .toast.warning {
+      border-left-color: var(--warning);
+    }
+    
+    .toast.warning i {
+      color: var(--warning);
+    }
+    
+    .toast.info {
+      border-left-color: var(--info);
+    }
+    
+    .toast.info i {
+      color: var(--info);
+    }
+    
+    .footer {
+      margin-top: 2rem;
+      text-align: center;
+      color: var(--secondary-text);
+      font-size: 0.9rem;
+      padding: 1rem;
+    }
+    
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    
+    .footer a:hover {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+
+    /* Pantallas grandes (desktops, 1200px en adelante) */
+    @media (min-width: 1200px) {
+      .container {
+        max-width: 550px;
+      }
+      
+      .card {
+        padding: 2rem;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      p.description {
+        font-size: 1rem;
+      }
+      
+      .donation-option {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+      }
+      
+      .qr-container {
+        width: 180px;
+        height: 180px;
+      }
+    }
+
+    /* Tablets en modo paisaje (1024px) */
+    @media (max-width: 1024px) {
+      .container {
+        max-width: 600px;
+      }
+      
+      .card {
+        padding: 1.8rem;
+      }
+    }
+
+    /* Tablets en modo retrato (768px) */
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+        font-size: 15px;
+      }
+      
+      .container {
+        max-width: 500px;
+      }
+      
+      .card {
+        padding: 1.6rem;
+      }
+      
+      .profile-pic {
+        width: 95px;
+        height: 95px;
+      }
+      
+      h1 {
+        font-size: 1.65rem;
+      }
+      
+      .donation-option {
+        padding: 0.7rem 0.8rem;
+        font-size: 0.92rem;
+      }
+      
+      .qr-container {
+        width: 160px;
+        height: 160px;
+      }
+      
+      .toast {
+        width: auto;
+        max-width: 80%;
+      }
+    }
+
+    /* Móviles grandes (576px) */
+    @media (max-width: 576px) {
+      body {
+        padding: 0.8rem;
+        font-size: 14px;
+      }
+      
+      .card {
+        padding: 1.4rem;
+      }
+      
+      .profile-pic {
+        width: 90px;
+        height: 90px;
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+      
+      p.description {
+        font-size: 0.92rem;
+      }
+      
+      .donation-buttons {
+        gap: 6px;
+      }
+      
+      .donation-option {
+        padding: 0.7rem 0.5rem;
+        font-size: 0.88rem;
+      }
+      
+      .crypto-section, .message-section {
+        padding: 1.1rem;
+      }
+      
+      .section-header {
+        font-size: 0.95rem;
+      }
+      
+      .qr-container {
+        width: 150px;
+        height: 150px;
+      }
+      
+      input#wallet, .copy-btn {
+        padding: 0.75rem;
+        font-size: 0.88rem;
+      }
+      
+      .toast {
+        padding: 0.7rem 1rem;
+        font-size: 0.88rem;
+        max-width: 90%;
+      }
+    }
+
+    /* Móviles pequeños (480px) */
+    @media (max-width: 480px) {
+      .card {
+        padding: 1.2rem;
+      }
+      
+      .profile-pic {
+        width: 85px;
+        height: 85px;
+      }
+      
+      h1 {
+        font-size: 1.4rem;
+      }
+      
+      .donation-buttons {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      
+      .donation-option {
+        width: 100%;
+        justify-content: center;
+        padding: 0.8rem;
+      }
+      
+      .qr-container {
+        width: 140px;
+        height: 140px;
+      }
+      
+      .toast {
+        width: 90%;
+        text-align: center;
+        padding: 0.8rem;
+        gap: 8px;
+      }
+    }
+
+    /* Móviles muy pequeños (360px) */
+    @media (max-width: 360px) {
+      body {
+        padding: 0.5rem;
+        font-size: 13px;
+      }
+      
+      .card {
+        padding: 1rem;
+        border-radius: var(--radius-md);
+      }
+      
+      .profile-pic {
+        width: 80px;
+        height: 80px;
+      }
+      
+      h1 {
+        font-size: 1.3rem;
+        line-height: 1.3;
+      }
+
+      p.description {
+        font-size: 0.9rem;
+      }
+      
+      .crypto-section, .message-section {
+        padding: 0.9rem;
+      }
+      
+      .section-header {
+        font-size: 0.88rem;
+        gap: 6px;
+      }
+
+      .section-header h3 {
+        font-size: 0.95rem;
+        word-break: break-word;
+      }
+
+      .amount-indicator {
+        font-size: 0.82rem;
+        padding: 0.3rem 0.7rem;
+      }
+
+      select#crypto {
+        padding: 0.6rem;
+        font-size: 0.85rem;
+      }
+
+      .wallet-container {
+        gap: 0.4rem;
+      }
+
+      input#wallet, .copy-btn {
+        padding: 0.5rem;
+        font-size: 0.83rem;
+      }
+
+      .message-section h3 {
+        font-size: 0.95rem;
+      }
+
+      textarea#message {
+        padding: 0.8rem;
+        font-size: 0.85rem;
+      }
+      
+      .send-btn {
+        padding: 0.7rem;
+        font-size: 0.85rem;
+      }
+      
+      .message-item {
+        padding: 0.7rem;
+        padding-left: 1.8rem;
+        font-size: 0.82rem;
+      }
+      
+      .message-item::before {
+        left: 0.7rem;
+        top: 0.7rem;
+        font-size: 0.9rem;
+      }
+      
+      #messages-container h3 {
+        font-size: 0.95rem;
+      }
+      
+      .qr-container {
+        width: 130px;
+        height: 130px;
+      }
+      
+      .toast {
+        width: 95%;
+        bottom: 10px;
+        font-size: 0.82rem;
+        padding: 0.7rem;
+      }
+
+      .footer {
+        font-size: 0.8rem;
+        padding: 0.6rem;
+      }
+      
+      .footer p {
+        margin-bottom: 0.3rem;
+      }
+    }
+    
+    /* Móviles muy pequeños (320px) */
+    @media (max-width: 320px) {
+      body {
+        padding: 0.4rem;
+        font-size: 12.5px;
+      }
+      .card {
+        padding: 0.9rem;
+      }
+      .profile-pic {
+        width: 75px;
+        height: 75px;
+      }
+      
+      h1 {
+        font-size: 1.25rem;
+      }
+
+      p.description {
+        font-size: 0.86rem;
+      }
+      
+      .donation-option {
+        font-size: 0.82rem;
+        padding: 0.7rem;
+      }
+
+      .section-header {
+        font-size: 0.84rem;
+      }
+
+      .section-header h3 {
+        font-size: 0.9rem;
+      }
+      
+      .amount-indicator {
+        font-size: 0.8rem;
+      }
+
+      select#crypto {
+        font-size: 0.82rem;
+        padding: 0.55rem;
+      }
+      
+      input#wallet, .copy-btn {
+        font-size: 0.80rem;
+        padding: 0.63rem;
+      }
+
+      .qr-container {
+        width: 120px;
+        height: 120px;
+      }
+      
+      .message-section h3 {
+        font-size: 0.9rem;
+      }
+      
+      textarea#message {
+        padding: 0.7rem;
+        font-size: 0.82rem;
+        min-height: 80px;
+      }
+      
+      .send-btn {
+        font-size: 0.82rem;
+      }
+      
+      .message-item {
+        font-size: 0.8rem;
+        padding-left: 1.7rem;
+      }
+      
+      #messages-container h3 {
+        font-size: 0.9rem;
+      }
+      
+      .toast {
+        font-size: 0.8rem;
+        padding: 0.6rem;
+      }
+      
+      .footer {
+        font-size: 0.78rem;
+      }
+    }
+
+    /* Mejora: Cambio de tema */
+    .theme-toggle {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: var(--transition);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+    }
+
+    [data-theme="light"] .theme-toggle {
+      background: rgba(0, 0, 0, 0.05);
+    }
+    
+    .theme-toggle:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: rotate(15deg);
+    }
+
+    [data-theme="light"] .theme-toggle:hover {
+      background: rgba(0, 0, 0, 0.1);
+    }
+    
+    .theme-toggle i {
+      font-size: 1.2rem;
+      color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="coffee-decoration">☕</div>
+  <button class="theme-toggle" aria-label="Cambiar tema" title="Cambiar tema">
+    <i class="fas fa-moon"></i>
+  </button>
+
+  <div class="container">
+    <div class="card">
+      <div class="profile-container">
+        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Perfil" class="profile-pic" />
+        <div class="crypto-badge" aria-label="Cripto entusiasta">
+          <i class="fas fa-coins"></i>
+        </div>
+      </div>
+      
+      <h1>@JohnDoe</h1>
+      <p class="description">¡Gracias por tu apoyo! Si disfrutas de mi contenido, <span class="highlight">invítame un café</span> usando criptomonedas. Cada donación me ayuda a seguir creando.</p>
+
+      <div class="donation-buttons">
+        <button class="donation-option active" data-amount="1" aria-label="Donar $1">
+          <span class="coffee-icon" aria-hidden="true">☕</span> $1
+        </button>
+        <button class="donation-option" data-amount="3" aria-label="Donar $3">
+          <span class="coffee-icon" aria-hidden="true">☕</span><span class="coffee-icon" aria-hidden="true">☕</span> $3
+        </button>
+        <button class="donation-option" data-amount="5" aria-label="Donar $5">
+          <span class="coffee-icon" aria-hidden="true">☕</span><span class="coffee-icon" aria-hidden="true">☕</span><span class="coffee-icon" aria-hidden="true">☕</span> $5
+        </button>
+      </div>
+
+      <div class="crypto-section">
+        <div class="section-header">
+          <i class="fas fa-wallet" aria-hidden="true"></i>
+          <h3>Donación con Criptomonedas</h3>
+        </div>
+        
+        <div class="amount-indicator">
+          <i class="fas fa-coffee" aria-hidden="true"></i>
+          <span>Monto: $<span id="selected-amount">1</span></span>
+        </div>
+        
+      <div class="crypto-select-container">
+        <label for="crypto" class="sr-only">Selecciona una criptomoneda:</label>
+        <select id="crypto" aria-label="Seleccionar criptomoneda">
+          <option value="BTC">Bitcoin (BTC)</option>
+          <option value="ETH">Ethereum (ETH)</option>
+          <option value="USDT">Tether (USDT)</option>
+          <option value="SOL">Solana (SOL)</option>
+          <option value="ADA">Cardano (ADA)</option>
+        </select>
+      </div>
+
+      <div class="crypto-info">
+          <div class="crypto-info-item">
+            <span class="crypto-info-label">Valor aproximado:</span>
+            <span class="crypto-info-value" id="crypto-value">0.000023 BTC</span>
+          </div>
+          <div class="crypto-info-item">
+            <span class="crypto-info-label">Tarifa de red:</span>
+            <span class="crypto-info-value" id="network-fee">~$0.50</span>
+          </div>
+        </div>
+
+        <p>Escanea el QR o copia la dirección:</p>
+        <div class="qr-container">
+          <img id="qrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=1FfmbHfnpaZjKFvyi1okTjJJusN455paPH" alt="Código QR para donación en criptomonedas">
+        </div>
+        
+        <div class="wallet-container">
+          <input type="text" id="wallet" value="1FfmbHfnpaZjKFvyi1okTjJJusN455paPH" readonly aria-label="Dirección de wallet" />
+          <button class="copy-btn" onclick="copyWallet()" aria-label="Copiar dirección">
+            <i class="fas fa-copy" aria-hidden="true"></i> 
+          </button>
+        </div>
+      </div>
+
+      <div class="message-section">
+        <h3>
+          <i class="fas fa-comment-dots" aria-hidden="true"></i>
+          <span>Deja un mensaje de apoyo</span>
+        </h3>
+        
+        <textarea id="message" placeholder="Escribe tu mensaje aquí... (máximo 200 caracteres)" aria-label="Escribe tu mensaje de apoyo"></textarea>
+        <div class="char-counter"><span id="char-count">0</span>/200</div>
+        <button class="send-btn" onclick="sendMessage()" aria-label="Enviar mensaje">
+          <span class="spinner"></span>
+          <span class="btn-text">
+            <i class="fas fa-paper-plane" aria-hidden="true"></i> Enviar mensaje
+          </span>
+        </button>
+      </div>
+
+    <div class="footer">
+      <p>Hecho con ❤️ usando HTML, CSS y JavaScript</p>
+      <p>© 2025 Invítame un Café Cripto | <a href="#">Política de Privacidad</a></p>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite">
+    <i class="fas fa-check-circle"></i>
+    <span>¡Dirección copiada al portapapeles!</span>
+  </div>
+
+  <script>
+
+    // Datos de wallets con valores dinámicos
+    const cryptoRates = {
+      BTC: 0.000023,
+      ETH: 0.0032,
+      USDT: 1.0,
+      SOL: 0.15,
+      ADA: 5.2
+    };
+
+    // Datos de wallets
+    const wallets = {
+      BTC: {
+        address: "1FfmbHfnpaZjKFvyi1okTjJJusN455paPH",
+        qr: "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=1FfmbHfnpaZjKFvyi1okTjJJusN455paPH",
+        value: "0.000023 BTC",
+        fee: "~$0.50"
+      },
+      ETH: {
+        address: "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+        qr: "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+         value: "0.0032 ETH",
+        fee: "~$1.20"
+      },
+      USDT: {
+        address: "TNzMuFZ6MC4o2A9FKWbW5znkWcrrjKvYwz",
+        qr: "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=TNzMuFZ6MC4o2A9FKWbW5znkWcrrjKvYwz",
+        value: "1.0 USDT",
+        fee: "~$0.10"
+      },
+      SOL: {
+        address: "5v6tZ1S9d7z8x4c2b3n1m9a8s7d6f5g4h3j2k1l",
+        qr: "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=5v6tZ1S9d7z8x4c2b3n1m9a8s7d6f5g4h3j2k1l",
+        value: "0.15 SOL",
+        fee: "~$0.01"
+      },
+      ADA: {
+        address: "addr1q9d7z8x4c2b3n1m9a8s7d6f5g4h3j2k1l5v6tZ1S9d7z8x4c2b3n1m9a8s7d6f5g4h3j2k1l",
+        qr: "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=addr1q9d7z8x4c2b3n1m9a8s7d6f5g4h3j2k1l5v6tZ1S9d7z8x4c2b3n1m9a8s7d6f5g4h3j2k1l",
+        value: "5.2 ADA",
+        fee: "~$0.15"
+      }
+    };
+
+    // Variables globales
+    let selectedAmount = 1;
+    let selectedCrypto = "BTC";
+    let lastMessageTime = 0;
+    const MESSAGE_COOLDOWN = 30000; // 30 segundos
+
+    // Inicialización
+    document.addEventListener('DOMContentLoaded', function() {
+      // Configurar eventos para los botones de donación
+      const donationButtons = document.querySelectorAll('.donation-option');
+      donationButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Remover clase activa de todos los botones
+          donationButtons.forEach(btn => btn.classList.remove('active'));
+          // Agregar clase activa al botón seleccionado
+          this.classList.add('active');
+          // Actualizar el monto seleccionado
+          selectedAmount = parseInt(this.dataset.amount);
+          document.getElementById('selected-amount').textContent = selectedAmount;
+          updateCryptoValue();
+        });
+      });
+
+      // Configurar evento para el selector de criptomonedas
+      document.getElementById('crypto').addEventListener('change', updateCrypto);
+
+      // Configurar contador de caracteres
+      const messageInput = document.getElementById('message');
+      messageInput.addEventListener('input', function() {
+        const charCount = this.value.length;
+        document.getElementById('char-count').textContent = charCount;
+        
+        const counter = document.querySelector('.char-counter');
+        counter.classList.remove('warning', 'error');
+        
+        if (charCount > 180 && charCount <= 200) {
+          counter.classList.add('warning');
+        } else if (charCount > 200) {
+          counter.classList.add('error');
+        }
+      });
+
+     // Inicializar valores cripto
+      updateCryptoValue();
+      // Configurar cambio de tema
+      setupThemeToggle();
+    });
+
+    function setupThemeToggle() {
+      const toggle = document.querySelector('.theme-toggle');
+      const themeIcon = toggle.querySelector('i');
+      
+      // Comprobar tema guardado
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        themeIcon.className = 'fas fa-sun';
+      }
+      
+      toggle.addEventListener('click', function() {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        
+        themeIcon.className = newTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+      });
+    }
+
+    function updateCrypto() {
+      const selected = document.getElementById('crypto').value;
+      selectedCrypto = selected;
+      const walletInput = document.getElementById('wallet');
+      const qrImage = document.getElementById('qrImage');
+
+      walletInput.value = wallets[selected].address;
+      qrImage.src = wallets[selected].qr;
+      updateCryptoValue();
+    }
+
+    function updateCryptoValue() {
+      const cryptoValue = document.getElementById('crypto-value');
+      const networkFee = document.getElementById('network-fee');
+      
+      if (wallets[selectedCrypto]) {
+        const calculatedValue = cryptoRates[selectedCrypto] * selectedAmount;
+        // Formatear para mostrar 6 decimales como máximo
+        const formattedValue = calculatedValue.toFixed(6).replace(/\.?0+$/, '');
+        cryptoValue.textContent = `${formattedValue} ${selectedCrypto}`;
+        networkFee.textContent = wallets[selectedCrypto].fee;
+      }
+    }
+
+    function copyWallet() {
+      const wallet = document.getElementById('wallet');
+      navigator.clipboard.writeText(wallet.value).then(() => {
+        showToast('¡Dirección copiada al portapapeles!', 'success');
+      }).catch(err => {
+        showToast('Error al copiar la dirección', 'error');
+      });
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('message');
+      const message = input.value.trim();
+      const sendBtn = document.querySelector('.send-btn');
+      
+      // Activar estado de carga
+      sendBtn.classList.add('sending');
+      
+      // Simular tiempo de procesamiento
+      setTimeout(() => {
+        sendBtn.classList.remove('sending');
+        
+        if (!message) {
+          showToast('Por favor escribe un mensaje.', 'error');
+          return;
+        }
+
+        if (message.length > 200) {
+          showToast('El mensaje no puede tener más de 200 caracteres.', 'error');
+          return;
+        }
+
+        const now = Date.now();
+        if (now - lastMessageTime < MESSAGE_COOLDOWN) {
+          const secondsLeft = Math.ceil((MESSAGE_COOLDOWN - (now - lastMessageTime)) / 1000);
+          showToast(`Por favor espera ${secondsLeft} segundos antes de enviar otro mensaje.`, 'warning');
+          return;
+        }
+
+        lastMessageTime = now;
+
+        // Sanitizar mensaje para prevenir XSS
+        const sanitizedMessage = sanitize(message);
+
+        const messages = JSON.parse(localStorage.getItem('messages')) || [];
+        const timestamp = new Date().toLocaleString();
+        messages.unshift({ text: sanitizedMessage, timestamp: timestamp });
+        
+        // Mantener solo los últimos 10 mensajes
+        if (messages.length > 10) {
+          messages.pop();
+        }
+        
+        localStorage.setItem('messages', JSON.stringify(messages));
+        input.value = '';
+        document.getElementById('char-count').textContent = '0';
+        document.querySelector('.char-counter').classList.remove('warning', 'error');
+        
+        showToast('¡Mensaje enviado con éxito! Gracias por tu apoyo.');
+        loadMessages();
+      }, 1500);
+    }
+
+    // Función de sanitización básica para prevenir XSS
+    function sanitize(input) {
+      return input
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function loadMessages() {
+      const messagesList = document.getElementById('messages-list');
+      messagesList.innerHTML = '';
+      const messages = JSON.parse(localStorage.getItem('messages') || []);
+      
+      if (messages.length === 0) {
+        messagesList.innerHTML = '<li class="message-item">No hay mensajes todavía. ¡Sé el primero en enviar uno!</li>';
+        return;
+      }
+      
+      messages.forEach(msg => {
+        const li = document.createElement('li');
+        li.className = 'message-item';
+        
+        // Crear contenedor de texto
+        const textDiv = document.createElement('div');
+        textDiv.textContent = msg.text;
+        textDiv.style.marginBottom = '5px';
+        
+        // Crear contenedor de timestamp
+        const timeDiv = document.createElement('div');
+        timeDiv.textContent = msg.timestamp;
+        timeDiv.style.fontSize = '0.8rem';
+        timeDiv.style.color = '#666';
+        
+        li.appendChild(textDiv);
+        li.appendChild(timeDiv);
+        messagesList.appendChild(li);
+      });
+    }
+
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById('toast');
+      const icon = toast.querySelector('i');
+      const text = toast.querySelector('span');
+      
+      // Actualizar contenido y estilo según el tipo
+      text.textContent = message;
+      
+      switch(type) {
+        case 'success':
+          icon.className = 'fas fa-check-circle';
+          toast.style.borderLeftColor = '#4caf50';
+          icon.style.color = '#4caf50';
+          break;
+        case 'error':
+          icon.className = 'fas fa-exclamation-circle';
+          toast.style.borderLeftColor = '#f44336';
+          icon.style.color = '#f44336';
+          break;
+        case 'warning':
+          icon.className = 'fas fa-exclamation-triangle';
+          toast.style.borderLeftColor = '#ff9800';
+          icon.style.color = '#ff9800';
+          break;
+        default:
+          icon.className = 'fas fa-info-circle';
+          toast.style.borderLeftColor = '#2196f3';
+          icon.style.color = '#2196f3';
+      }
+      
+      // Mostrar toast
+      toast.classList.add('show');
+      
+      // Ocultar después de 3 segundos
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
