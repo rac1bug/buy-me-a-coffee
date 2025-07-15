@@ -1,0 +1,121 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: 'Arial', sans-serif;
+}
+
+.card {
+  position: relative;
+  width: 300px;
+  height: 460px;
+  background: linear-gradient(to bottom, #f5d442, #b88a2b);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 20px gold;
+  padding: 10px;
+  color: white;
+}
+
+.player-img {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 0;
+  filter: drop-shadow(2px 2px 6px #000);
+}
+
+.rating {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: yellow;
+  text-shadow: 2px 2px 5px black;
+}
+
+.game-title {
+  position: absolute;
+  top: 15px;
+  right: 10px;
+  font-size: 0.8rem;
+  background: rgba(0,0,0,0.6);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.game-title span {
+  color: red;
+}
+
+.position-club {
+  position: absolute;
+  top: 70px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.position {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.club-logo {
+  width: 30px;
+  height: auto;
+}
+
+.player-name {
+  position: absolute;
+  bottom: 80px;
+  width: 100%;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px black;
+}
+
+.stars {
+  position: absolute;
+  bottom: 55px;
+  width: 100%;
+  text-align: center;
+  font-size: 1.3rem;
+  color: gold;
+  text-shadow: 1px 1px 3px black;
+}
+
+.badges {
+  position: absolute;
+  bottom: 15px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+}
+
+.badge {
+  width: 25px;
+  height: 25px;
+  background: #222;
+  border: 2px solid gold;
+  border-radius: 50%;
+}
+
+.ef-icon {
+  width: 30px;
+  height: 30px;
+}
